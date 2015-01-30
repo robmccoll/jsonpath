@@ -41,7 +41,7 @@ func ExtractFloat64(jsonStr []byte, path string) (float64, error) {
 // or value based on the given dot-separated path. Elements in the path can be a
 // field name or array index. Array indices can be negative to be counted backward
 // from the end of the array.
-// As an example: {"a": [{"val":0}, {"val":7}]}  "a.[-1].val" would return 7.
+// As an example: {"a": [{"val":0}, {"val":7}]}  "a|[-1]|val" would return 7.
 func Extract(jsonStr []byte, path string) (interface{}, error) {
 	var rtn interface{}
 
@@ -51,7 +51,7 @@ func Extract(jsonStr []byte, path string) (interface{}, error) {
 		return nil, err
 	}
 
-	pieces := strings.Split(path, ".")
+	pieces := strings.Split(path, "|")
 
 	for _, piece := range pieces {
 		if len(piece) < 1 {
