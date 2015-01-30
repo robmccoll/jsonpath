@@ -7,6 +7,36 @@ import (
 	"strings"
 )
 
+func ExtractString(jsonStr []byte, path string) (string, error) {
+	iface, err := Extract(jsonStr, path)
+	if err != nil {
+		return "", err
+	}
+
+	str, ok := iface.(string)
+
+	if !ok {
+		return "", fmt.Errorf("Element [%v] is not a string.", iface)
+	}
+
+	return str, nil
+}
+
+func ExtractFloat64(jsonStr []byte, path string) (float64, error) {
+	iface, err := Extract(jsonStr, path)
+	if err != nil {
+		return 0, err
+	}
+
+	flt, ok := iface.(float64)
+
+	if !ok {
+		return 0, fmt.Errorf("Element [%v] is not a number.", iface)
+	}
+
+	return flt, nil
+}
+
 // Extract unmarshals the given json object or array and extracts a subobject, array,
 // or value based on the given dot-separated path. Elements in the path can be a
 // field name or array index. Array indices can be negative to be counted backward
